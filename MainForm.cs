@@ -29,21 +29,23 @@ namespace SpeechToTextApp
 
         private void InitializeComponent()
         {
-            this.Text = "Speech to Text App";
-            this.Size = new Size(800, 600);
+            this.Text = "🎤 Speech to Text App";
+            this.Size = new Size(900, 700);
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.BackColor = Color.FromArgb(245, 245, 245);
+            this.BackColor = Color.FromArgb(248, 249, 250);
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.Icon = SystemIcons.Application;
 
             titleLabel = new Label
             {
                 Text = "🎤 Speech to Text Converter",
-                Font = new Font("Segoe UI", 24, FontStyle.Bold),
-                ForeColor = Color.FromArgb(44, 62, 80),
+                Font = new Font("Segoe UI", 28, FontStyle.Bold),
+                ForeColor = Color.FromArgb(52, 73, 94),
                 TextAlign = ContentAlignment.MiddleCenter,
-                Location = new Point(50, 20),
-                Size = new Size(700, 50)
+                Location = new Point(50, 30),
+                Size = new Size(800, 60),
+                BackColor = Color.Transparent
             };
             this.Controls.Add(titleLabel);
 
@@ -51,56 +53,60 @@ namespace SpeechToTextApp
             {
                 Multiline = true,
                 ScrollBars = ScrollBars.Vertical,
-                Font = new Font("Segoe UI", 14),
-                Location = new Point(50, 90),
-                Size = new Size(700, 350),
+                Font = new Font("Segoe UI", 16),
+                Location = new Point(50, 110),
+                Size = new Size(800, 380),
                 BackColor = Color.White,
                 BorderStyle = BorderStyle.FixedSingle,
-                Text = "Metin burada görünecek...\n\nKonuşmaya başlamak için 'Başla' butonuna tıklayın.",
-                ReadOnly = true
+                Text = "🎯 Metin burada görünecek...\n\n💡 Konuşmaya başlamak için 'Başla' butonuna tıklayın.\n\n🔊 Mikrofonunuzun açık olduğundan emin olun.",
+                ReadOnly = true,
+                ForeColor = Color.FromArgb(52, 73, 94)
             };
             this.Controls.Add(textOutput);
 
             startButton = new Button
             {
                 Text = "🎤 Konuşmaya Başla",
-                Font = new Font("Segoe UI", 14, FontStyle.Bold),
+                Font = new Font("Segoe UI", 16, FontStyle.Bold),
                 ForeColor = Color.White,
-                BackColor = Color.FromArgb(52, 152, 219),
-                Location = new Point(200, 470),
-                Size = new Size(180, 50),
+                BackColor = Color.FromArgb(46, 204, 113),
+                Location = new Point(200, 510),
+                Size = new Size(220, 60),
                 FlatStyle = FlatStyle.Flat,
                 Cursor = Cursors.Hand
             };
             startButton.FlatAppearance.BorderSize = 0;
+            startButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(39, 174, 96);
             startButton.Click += StartButton_Click;
             this.Controls.Add(startButton);
 
             stopButton = new Button
             {
                 Text = "⏹️ Durdur",
-                Font = new Font("Segoe UI", 14, FontStyle.Bold),
+                Font = new Font("Segoe UI", 16, FontStyle.Bold),
                 ForeColor = Color.White,
                 BackColor = Color.FromArgb(231, 76, 60),
-                Location = new Point(420, 470),
-                Size = new Size(180, 50),
+                Location = new Point(480, 510),
+                Size = new Size(220, 60),
                 FlatStyle = FlatStyle.Flat,
                 Cursor = Cursors.Hand,
                 Enabled = false
             };
             stopButton.FlatAppearance.BorderSize = 0;
+            stopButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 57, 43);
             stopButton.Click += StopButton_Click;
             this.Controls.Add(stopButton);
 
             statusLabel = new Label
             {
-                Text = "Hazır",
-                Font = new Font("Segoe UI", 12),
+                Text = "✅ Hazır - Konuşmaya başlamak için butona tıklayın",
+                Font = new Font("Segoe UI", 14),
                 TextAlign = ContentAlignment.MiddleCenter,
-                Location = new Point(50, 540),
-                Size = new Size(700, 30),
+                Location = new Point(50, 590),
+                Size = new Size(800, 40),
                 BackColor = Color.FromArgb(52, 73, 94),
-                ForeColor = Color.White
+                ForeColor = Color.White,
+                BorderStyle = BorderStyle.FixedSingle
             };
             this.Controls.Add(statusLabel);
 
@@ -138,7 +144,9 @@ namespace SpeechToTextApp
                 
                 speechRecognitionEngine = new SpeechRecognitionEngine(selectedRecognizer);
                 
+                // GrammarBuilder'ı seçilen recognizer'ın kültürüne göre ayarla
                 var grammarBuilder = new GrammarBuilder();
+                grammarBuilder.Culture = selectedRecognizer.Culture;
                 grammarBuilder.AppendDictation();
                 
                 var grammar = new Grammar(grammarBuilder);
@@ -289,7 +297,7 @@ namespace SpeechToTextApp
             {
                 string recognizedText = e.Result.Text;
                 
-                if (textOutput.Text == "Metin burada görünecek...\n\nKonuşmaya başlamak için 'Başla' butonuna tıklayın.")
+                if (textOutput.Text == "🎯 Metin burada görünecek...\n\n💡 Konuşmaya başlamak için 'Başla' butonuna tıklayın.\n\n🔊 Mikrofonunuzun açık olduğundan emin olun.")
                 {
                     textOutput.Text = recognizedText;
                 }
